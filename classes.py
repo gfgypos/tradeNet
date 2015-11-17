@@ -9,6 +9,7 @@ class User:
 	password = ""
 	name = ""
 	is_active = 0
+	error_code = 0
 	def __init__(self):
 		pass
 
@@ -22,17 +23,17 @@ class User:
 					cur.execute("SELECT is_active FROM user WHERE username=?", [username])
 					active = cur.fetchone()[0]
 					if active == 0:
-						print("\nAccount suspended! Contact admin...")
+						self.error_code = 1
 						return False
 					else:
 						return True
 				
 			else:
-				print "ERROR: invalid passowrd"
+				self.error_code = 2
 				return False
 		else:
 			print cur.fetchone()
-			print "ERROR: username does not exist"
+			self.error_code = 3
 			return False
 
 class Admin(User):
