@@ -89,6 +89,11 @@ class Account:
 	def checkBalance(self):
 		return self.account_bal
 
+class Brokerage(Account):
+	def __init__self(self, accountNum):
+		self.accountNum = accountNum
+		self.accountType = "brokerage"
+
 class Savings(Account):
 	def __init__(self, accountNum):
 		self.accountNum = accountNum
