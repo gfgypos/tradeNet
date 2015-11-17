@@ -8,6 +8,7 @@
 
 from PyQt4 import QtCore, QtGui
 from classes import *
+from test import *
 import sys
 
 try:
@@ -89,6 +90,12 @@ class Ui_LoginForm(QtGui.QWidget):
             self.txt_password.setText("")
         elif(currentUser.error_code == 0):
             self.console_out.setText("Login Successful!")
+            log_window = logged_in_window(self)
+
+    def logged_in_window(self):
+        logged_in = Ui_Dialog()
+        logged_in.show()
+        return logged_in
 
 if(__name__ == "__main__"):
     app = QtGui.QApplication(sys.argv)
