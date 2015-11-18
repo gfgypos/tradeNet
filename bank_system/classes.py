@@ -100,3 +100,8 @@ class Checking(Account):
 		self.accountNum = accountNum
 		self.accountType = "checking"
 
+class Broker(Account):
+	def __init__(self, accountNum):
+		self.accountNum = accountNum
+		self.accountType = "brokerage"
+
