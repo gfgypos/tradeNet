@@ -34,12 +34,12 @@ $query = "SELECT * FROM account";
 	      <div class = "col-md-4">
 			<h3>Buy stocks</h3>
 			<p>Click here to purchase stocks.</p>
-			<p><a href="buystock.php">Click here to upload content</a></p>
+			<p><a href="#">Click here to upload content</a></p>
 	      </div>
 		  <div class = "col-md-4">
 			<h3>Sell stocks</h3>
 			<p>Click here to sell your stocks.</p>
-			<p><a href="sellstock.php">Click here to view user-submitted content</a></p>
+			<p><a href="#">Click here to view user-submitted content</a></p>
 		  </div>
 	    </div>
 	</div>
