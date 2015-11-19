@@ -269,7 +269,7 @@ while True:
 					print "ERROR user does not exist, please add customer first \n"
 					break
 
-				name = raw_input("\nEnter the users name: ")
+				username = raw_input("\nEnter the users name: ")
 				pw = raw_input("\nEnter the users password: ")
 				act_num = input("\nEnter the users brokerage account number: ")
 				cur.execute("SELECT * FROM account WHERE account_number=?", [act_num])
@@ -289,8 +289,8 @@ while True:
 	
 				balance = act_info[2]
 
-				cur.execute("INSERT INTO brokerage_user (uid, name, password, account_number, balance) VALUES (?,?,?,?,?)",
-							[uid, name, pw, act_num, balance])
+				cur.execute("INSERT INTO brokerage_user (uid, username, password, account_number, balance) VALUES (?,?,?,?,?)",
+							[uid, username, pw, act_num, balance])
 				conn.commit()
 				print("\nUser created a TradeNet account successfully\n")
 				dummy = raw_input("\nPress ENTER to continue...")
