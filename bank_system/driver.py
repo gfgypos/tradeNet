@@ -30,10 +30,11 @@ def admin_menu():
 	print "1) Create Customer" #assign username and password
 	print "2) Create Account"
 	print "3) Assign Account to customer"
-	print "4) View system Log"
-	print "5) List all account numbers, customers and balances"
-	print "6) Suspend/Reactivate Account"
-	print "7) End Sweg Banking Transaction"
+	print "4) Create a User for TradeNet"
+	print "5) View system Log"
+	print "6) List all account numbers, customers and balances"
+	print "7) Suspend/Reactivate Account"
+	print "8) End Sweg Banking Transaction"
 	print
 	return input ("Choose your option: ")
 
@@ -259,8 +260,44 @@ while True:
 				conn.commit()
 				print("\nUser assigned to account successfully \n")
 				dummy = raw_input("\nPress ENTER to continue...")
-			#View system log
+
+			#Add a brokerage user
 			elif choice == 4:
+				uid = input("\nEnter the customers userID:")
+				cur.execute("SELECT uid FROM user WHERE uid=?",[uid])
+				if(cur.fetchone() == None):
+					print "ERROR user does not exist, please add customer first \n"
+					break
+
+				name = raw_input("\nEnter the users name: ")
+				pw = raw_input("\nEnter the users password: ")
+				act_num = input("\nEnter the users brokerage account number: ")
+				cur.execute("SELECT * FROM account WHERE account_number=?", [act_num])
+				act_info = cur.fetchone()
+				if(act_info[0] == None):
+					print "ERROR account does not exist \n"
+					break
+		
+				if(act_info[1] != "brokerage"):
+					print "ERROR account is not a brokerage account"
+					break
+
+				cur.execute("SELECT * FROM user_account WHERE uid=? AND account_number=?", [uid, act_num])
+				if(cur.fetchone() == None):
+					print "ERROR this user does not own this account"
+					break
+	
+				balance = act_info[2]
+
+				cur.execute("INSERT INTO brokerage_user (uid, name, password, account_number, balance) VALUES (?,?,?,?,?)",
+							[uid, name, pw, act_num, balance])
+				conn.commit()
+				print("\nUser created a TradeNet account successfully\n")
+				dummy = raw_input("\nPress ENTER to continue...")
+
+
+			#View system log
+			elif choice == 5:
 				cur.execute("SELECT * FROM system_log")
 				data = cur.fetchall()
 				print("System log ID, Administrator account, User account, Action")
@@ -270,7 +307,7 @@ while True:
 				dummy = raw_input("\nPress ENTER to continue...")
 				print("\n\n\n")
 			#List all account numbers, balances, and account owners
-			elif choice == 5:
+			elif choice == 6:
 				cur.execute("SELECT * from user")
 				users = cur.fetchall()
 				for user in users:
@@ -285,7 +322,7 @@ while True:
 							print("		Account type: ") + bal[1]
 							print("		Current balance: ") + str(locale.currency(bal[0]))
 			#Activate or deactive a user account
-			elif choice == 6:
+			elif choice == 7:
 				cur.execute("SELECT * FROM user")
 				users = cur.fetchall()
 				for user in users:
@@ -308,7 +345,7 @@ while True:
 					#Log
 					cur.execute("INSERT INTO system_log (admin_acct, user_acct, event) VALUES (?,?,?)", [admindata[0],user[0], "Customer account suspended"])
 					conn.commit()
-			if choice == 7:
+			if choice == 8:
 				print("\nThanks for using Sweg Banking! Goodbye :-)\n")
 				#Log
 				cur.execute("INSERT INTO system_log (admin_acct, event) VALUES(?,?)",[admindata[0], "logout"])
