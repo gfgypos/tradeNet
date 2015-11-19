@@ -26,7 +26,9 @@ if ($result === FALSE)
 // Success
 else
 {
-  echo "Request completed: " . $result;
+ $json = json_decode($result);
+print_r($json);
+  echo "Request completed: " . $json->quotes->quote->symbol;
 }
 
 curl_close($ch);
