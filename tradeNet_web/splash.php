@@ -18,8 +18,6 @@ $query = "SELECT * FROM account";
       <div class="container">
 	<div class="text-center">
         <h1>Sweg Stocks</h1>
-        <p>Sign into your Sweg Banking account to trade stocks!</p>
-        <a href="register.php">Sign in now</a>
 	</div>
       </div>
     </div> 
@@ -28,6 +26,11 @@ $query = "SELECT * FROM account";
     <div class="learn-more">
 	  <div class="container">
 		<div class ="row">
+		 <div class = "col-md-4">
+			<h3>View portfolio</h3>
+			<p>View your currently owned stocks.</p>
+			<p><a href="#">Click here to get started</a></p>
+		  </div>
 	      <div class = "col-md-4">
 			<h3>Buy stocks</h3>
 			<p>Click here to purchase stocks.</p>
@@ -37,11 +40,6 @@ $query = "SELECT * FROM account";
 			<h3>Sell stocks</h3>
 			<p>Click here to sell your stocks.</p>
 			<p><a href="#">Click here to view user-submitted content</a></p>
-		  </div>
-		  <div class = "col-md-4">
-			<h3>View portfolio</h3>
-			<p>View your currently owned stocks.</p>
-			<p><a href="#">Click here to get started</a></p>
 		  </div>
 	    </div>
 	</div>
