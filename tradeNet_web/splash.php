@@ -14,6 +14,14 @@ $query = "SELECT * FROM account";
 
   <body>
 
+<div class="nav">
+	<div class="container">
+	<ul class ="pull-right">
+	<li><a href="splash.php">Home</a> | <a href="buystock.php">Buy stocks</a> | <a href="sellstock.php">Sell Stock</a> | <a href="portfolio.php">View Portfolio</a> | <a href="logout.php">Logout</a></li>
+	</ul>
+	</div>
+</div>
+
     <div class="jumbotron">
       <div class="container">
 	<div class="text-center">

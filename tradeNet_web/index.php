@@ -8,12 +8,13 @@ if(isset($_POST['username']) && isset($_POST['password']))
  if($stmt = $dbHandle->prepare("SELECT * FROM brokerage_user WHERE username=:username AND password=:password"))
  {
 
-  $stmt->bindParam(':username', $username);
-  $stmt->bindParam(':password', $password);
+  $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+  $stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
-  $result = $stmt->execute();
+  $stmt->execute();
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  if($result)
+  if($result['password'] == $password)
   {
     $_SESSION['username'] = $_POST['username'];
     header("Location: splash.php");
