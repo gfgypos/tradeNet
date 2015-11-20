@@ -29,7 +29,7 @@ $query = "SELECT * FROM account";
 		 <div class = "col-md-4">
 			<h3>View portfolio</h3>
 			<p>View your currently owned stocks.</p>
-			<p><a href="#">Click here to get started</a></p>
+			<p><a href="portfolio.php">Click here to get started</a></p>
 		  </div>
 	      <div class = "col-md-4">
 			<h3>Buy stocks</h3>

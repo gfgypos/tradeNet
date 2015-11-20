@@ -1,4 +1,5 @@
 <?php
+setlocale(LC_MONETARY, 'en_US');
 session_start();
 require_once "db_connect.php";
 $query = $dbHandle->prepare("SELECT * from brokerage_portfolio");
@@ -25,8 +26,8 @@ $query->execute();
 
 <div class="container">
 <br>  
-<h2>Stocks owned by you</h2>
-  <p>These are the stocks you currently own.</p>            
+<h2>Current portfolio</h2>
+  <p>These are the stocks you currently own along with purchase price and total current value.</p>            
   <table class="table table-striped">
     <thead>
       <tr>
@@ -34,7 +35,7 @@ $query->execute();
         <th>Purchase Price</th>
         <th>You own</th>
 	<th>Current Market Price </th>
-	<th>Use links below to sell</th>
+	<th>Total value</th>
       </tr>
     </thead>
     <tbody>
@@ -43,7 +44,7 @@ $query->execute();
 	     '<td>$' . $result['purchase_price'] . '</td>' . 
 	     '<td>' . $result['shares'] . ' shares</td>' .
 	     '<td>Placeholder...</td>' .
-	     '<td><a href="confirmation.php">Sell now</td></tr>';
+	     '<td>' . money_format('%i', $result['purchase_price']*$result['shares']) . '</td></tr>';
 	}
 ?>
     </tbody>
