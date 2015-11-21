@@ -19,11 +19,12 @@ if(isset($_POST['username']) && isset($_POST['password']))
     $_SESSION['username'] = $_POST['username'];
     header("Location: splash.php");
   }
-}
+
  else
  {
     echo "<h1 class='text-center'>***Error in login credentials***</h1>";
     echo "<h2 class='text-center'>Please contact bank admin about setting up account</h2>";
+ }
  }
 }
 ?>

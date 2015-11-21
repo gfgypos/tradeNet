@@ -4,9 +4,6 @@ require_once "db_connect.php";
 // Request: Market Quotes (https://sandbox.tradier.com/v1/markets/quotes?symbols=spy)
 if(isset($_GET['buyingstock'])){
 	$sym = $_GET['buyingstock'];
-	$price = 0.00;
-	$symbol = "";
-	$symbolName = "";
 	$ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");
 
 	// Headers
@@ -31,9 +28,9 @@ if(isset($_GET['buyingstock'])){
 	else
 	{
  	 $json = json_decode($result);
-	  //print_r($json);
+//	  print_r($json);
 	 // echo "Request completed: " . $json->quotes->quote->symbol;
-	  $price = $json->quotes->quote->close;
+	  $price = $json->quotes->quote->open;
 	  $symbol = $json->quotes->quote->symbol;
 	  $symbolName = $json->quotes->quote->description;
 	}
