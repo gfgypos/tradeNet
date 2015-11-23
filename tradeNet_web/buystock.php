@@ -28,8 +28,8 @@ if(isset($_GET['buyingstock'])){
 	else
 	{
  	 $json = json_decode($result);
-//	  print_r($json);
-	 // echo "Request completed: " . $json->quotes->quote->symbol;
+	  //print_r($json);
+	  //echo "Request completed: " . $json->quotes->quote->symbol;
 	  $price = $json->quotes->quote->open;
 	  $symbol = $json->quotes->quote->symbol;
 	  $symbolName = $json->quotes->quote->description;
