@@ -16,6 +16,7 @@ $query->execute();
 </head>
 <body>
 
+<?php echo "<br><b>You are logged in as " . $_SESSION['username'] . ".</b>";?>
 <div class="nav">
 	<div class="container">
 	<ul class ="pull-right">

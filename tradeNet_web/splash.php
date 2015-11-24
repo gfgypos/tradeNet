@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "db_connect.php";
 $query = "SELECT * FROM account";
 ?>
@@ -14,6 +15,7 @@ $query = "SELECT * FROM account";
 
   <body>
 
+<?php echo "<br><b>You are logged in as " . $_SESSION['username'] . ".</b>";?>
 <div class="nav">
 	<div class="container">
 	<ul class ="pull-right">

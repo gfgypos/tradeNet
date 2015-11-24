@@ -24,7 +24,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
  else
  {
     echo "<h1 class='text-center'>***Error in login credentials***</h1>";
-    echo "<h2 class='text-center'>Please contact bank admin about setting up account</h2>";
+    echo "<h2 class='text-center'>Please contact bank admin about setting up account</h2><br>";
  }
  }
 }
@@ -43,7 +43,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <h1 class="text-center login-title">Sign in to continue to Sweg Banking</h1>
+            <h1 class="text-center login-title">Sign in to continue to Sweg Banking</h1><br>
             <div class="account-wall">
                 <form class="form-signin"  method="post">
                 <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
