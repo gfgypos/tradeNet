@@ -14,6 +14,7 @@ if(isset($_GET['buyingstock'])){
 
 	// Send synchronously
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 	$result = curl_exec($ch);
 
 	// Failure
@@ -102,6 +103,7 @@ if(isset($_GET['buyingstock'])){
     </tbody>
   </table>
   <input type="hidden" name="share_price" value="<?php echo $price; ?>"/>
+   <input type="hidden" name="symbol" value="<?php echo $symbol; ?>"/>
  </form>
 </div>
 <?php } else if(isset($_GET['buyingstock']) && !isset($json->quotes->quote)) { echo "<br><br><br><h2 class='text-center'>Invalid symbol! Please try again.</h2>";} ?>

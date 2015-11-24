@@ -17,6 +17,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
   if($result['password'] == $password)
   {
     $_SESSION['username'] = $_POST['username'];
+    $_SESSION['uid'] = $result['uid'];
     header("Location: splash.php");
   }
 
