@@ -5,39 +5,38 @@ require_once "db_connect.php";
 if(isset($_GET['buyingstock'])){
 	$sym = $_GET['buyingstock'];
 	$ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");
+
 	// Headers
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 	  "Accept: application/json",
 	  "Authorization: Bearer 5fXrPPE8pBIIOAGtmGLwn1Q1Z9sy",
 	));
+
 	// Send synchronously
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 	$result = curl_exec($ch);
+
 	// Failure
 	if ($result === FALSE)
 	{
 	  echo "cURL Error: " . curl_error($ch);
 	}
+
 	// Success
 	else
 	{
  	 $json = json_decode($result);
 	/* DEBUG ONLY */  
-	//print_r($json);
+//	print_r($json);
 	  //echo "Request completed: " . $json->quotes->quote->symbol;
-	$invSym = FALSE;
-	if (!$json->quotes->unmatched_symbols){
+	if (isset($json->quotes->quote)){
 		  $price = $json->quotes->quote->open;
 		  $symbol = $json->quotes->quote->symbol;
 		  $symbolName = $json->quotes->quote->description;
-	} else {
-		$invSym = TRUE;
-	}
+	}	
 	}
 	curl_close($ch);
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -78,7 +77,7 @@ if(isset($_GET['buyingstock'])){
 	</div>
 </div>
 
-<?php if(isset($_GET['buyingstock']) && $invSym != TRUE){ ?>
+<?php if(isset($_GET['buyingstock']) && isset($json->quotes->quote)){ ?>
 <div class="container">
 <br><br><br><br>
   <h2>Result</h2>
@@ -100,6 +99,6 @@ if(isset($_GET['buyingstock'])){
     </tbody>
   </table>
 </div>
-<?php } else echo "<br><br><br><h2 class='text-center'>Invalid symbol! Please try again.</h2>"; ?>
+<?php } else if(isset($_GET['buyingstock']) && !isset($json->quotes->quote)) { echo "<br><br><br><h2 class='text-center'>Invalid symbol! Please try again.</h2>";} ?>
 </body>
 </html>
