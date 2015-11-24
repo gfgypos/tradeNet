@@ -81,12 +81,14 @@ if(isset($_GET['buyingstock'])){
 <div class="container">
 <br><br><br><br>
   <h2>Result</h2>
-  <p>We found this stock matching your search criteria</p>            
+  <p>We found this stock matching your search criteria</p>
+ <form action="execute_buy.php" method="post">         
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Stock</th>
         <th>Price per share</th>
+        <th>Number of shares</th>
         <th>Click below to begin purchase</th>
       </tr>
     </thead>
@@ -94,10 +96,13 @@ if(isset($_GET['buyingstock'])){
       <tr>
         <td><?php echo '('. $symbol . ')' . '   ' . $symbolName ?></td>
         <td><?php echo '$' . $price ?></td>
-        <td><a href="confirmation.php">Buy now</td>
+        <td><input type='text' name='num_shares' size='3'/></td>
+        <td><input type="submit" value="Buy now"/></td>
       </tr>
     </tbody>
   </table>
+  <input type="hidden" name="share_price" value="<?php echo $price; ?>"/>
+ </form>
 </div>
 <?php } else if(isset($_GET['buyingstock']) && !isset($json->quotes->quote)) { echo "<br><br><br><h2 class='text-center'>Invalid symbol! Please try again.</h2>";} ?>
 </body>
