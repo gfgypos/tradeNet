@@ -15,7 +15,7 @@
 
  		 $user_acct = $result['account_number'];
  		 $user_bal = $result['balance'];
- 		 if($user_bal >= $total_cost
+ 		 if($user_bal >= $total_cost)
  		 {
  		 	$user_bal = $user_bal - $total_cost;
  		 	$current_date = date('Y-m-d H:i:s');
