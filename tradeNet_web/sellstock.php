@@ -3,6 +3,7 @@ session_start();
 require_once "db_connect.php";
 $query = $dbHandle->prepare("SELECT * from brokerage_portfolio");
 $query->execute();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@ $query->execute();
 <div class="container">
 <br>  
 <h2>Stocks owned by you</h2>
-  <p>These are the stocks you currently own.</p>            
+  <p>These are the stocks you currently own.</p>           i
   <table class="table table-striped">
     <thead>
       <tr>
@@ -39,13 +40,56 @@ $query->execute();
       </tr>
     </thead>
     <tbody>
-<?php      while($result = $query->fetch(PDO::FETCH_ASSOC)){
+<?php
+
+while($result = $query->fetch(PDO::FETCH_ASSOC)){
+$sym = $result['stock'];
+// Request: Market Quotes (https://sandbox.tradier.com/v1/markets/quotes?symbols=spy)
+$ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");
+
+// Headers
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	"Accept: application/json",
+	"Authorization: Bearer 5fXrPPE8pBIIOAGtmGLwn1Q1Z9sy",
+));
+
+// Send synchronously
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+$result2 = curl_exec($ch);
+
+// Failure
+if ($result2 === FALSE)
+{
+  echo "cURL Error: " . curl_error($ch);
+}
+
+// Success
+else
+{
+	$json = json_decode($result2);
+/* DEBUG ONLY */  
+//print_r($json);
+//echo "Request completed: " . $json->quotes->quote->symbol;
+	if (isset($json->quotes->quote)){
+		$price = $json->quotes->quote->open;
+	}	
+}
+?>
+<form action="execute_sell.php" method="POST"> <?php
 	echo '<tr><td>' . $result['stock'] . '</td>' .
 	     '<td>$' . $result['purchase_price'] . '</td>' . 
 	     '<td>' . $result['shares'] . ' shares</td>' .
-	     '<td>Placeholder...</td>' .
-	     '<td><a href="confirmation.php">Sell now</td></tr>';
+	     '<td>$' . $price . '</td>' .
+	     '<td><input type="text" name="num_shares" size="3" /></td>' .
+	     '<td><input type="submit" value="Sell now"/></td>';
+?> <input type="hidden" name="share_price" value="<?php echo $price; ?>"/>
+<input type="hidden" name="symbol" value="<?php echo $result['stock']; ?>"/>
+</form>
+<?php
 	}
+curl_close($ch);
+
 ?>
     </tbody>
   </table>
