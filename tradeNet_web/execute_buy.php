@@ -66,19 +66,19 @@
  		 	$stmt->execute();
 
  		 	echo "<h1 style='text-align: center'>Transaction Successful</h1>";
-			echo "<a href='buystock.php'>Return to Searching for Stocks</a>";
+			echo "<a style='text-align: center' href='buystock.php'>Return to Searching for Stocks</a>";
  		 }
  		 else
  		 {
  		 	echo "<h1 style='text-align: center'>***Not Enough Funds***</h1>";
-			echo "<a href='buystock.php'>Return to Searching for Stocks</a>";
+			echo "<a style='text-align: center' href='buystock.php'>Return to Searching for Stocks</a>";
  		 }
 
 	}
 	else
 	{
 		echo "<h1 style='text-align: center'>***Error in Transaction***</h1>";
-		echo "<a href='buystock.php'>Return to Searching for Stocks</a>";
+		echo "<a style='text-align: center' href='buystock.php'>Return to Searching for Stocks</a>";
 	}
 	
 ?>

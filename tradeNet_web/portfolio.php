@@ -2,7 +2,9 @@
 setlocale(LC_MONETARY, 'en_US');
 session_start();
 require_once "db_connect.php";
-$query = $dbHandle->prepare("SELECT * from brokerage_portfolio");
+$uid = $_SESSION['uid'];
+$query = $dbHandle->prepare("SELECT * from brokerage_portfolio WHERE uid=:uid");
+$query->bindParam(':uid', $uid, PDO::PARAM_INT);
 $query->execute();
 ?>
 <!DOCTYPE html>
