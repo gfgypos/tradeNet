@@ -88,8 +88,11 @@ else
 </form>
 <?php
 	}
-curl_close($ch);
-
+if(isset($ch)){
+	curl_close($ch);
+} else {
+	echo "<b>No stocks found</b>";
+}
 ?>
     </tbody>
   </table>

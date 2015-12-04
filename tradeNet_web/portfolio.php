@@ -38,17 +38,49 @@ $query->execute();
         <th>Purchase Price</th>
         <th>You own</th>
 	<th>Current Market Price </th>
-	<th>Total value</th>
+	<th>Total current value</th>
       </tr>
     </thead>
     <tbody>
 <?php      while($result = $query->fetch(PDO::FETCH_ASSOC)){
-	echo '<tr><td>' . $result['stock'] . '</td>' .
-	     '<td>$' . $result['purchase_price'] . '</td>' . 
-	     '<td>' . $result['shares'] . ' shares</td>' .
-	     '<td>Placeholder...</td>' .
-	     '<td>' . money_format('%i', $result['purchase_price']*$result['shares']) . '</td></tr>';
+/* adding stock query */
+$sym = $result['stock'];
+// Request quotes
+$ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");
+//Headers
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	"Accept: application/json",
+	"Authorization: Bearer 5fXrPPE8pBIIOAGtmGLwn1Q1Z9sy",
+));
+//Send synchronously
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+$result2 = curl_exec($ch);
+//Failure
+if($result2 === FALSE)
+{
+echo "cURL Error: " . curl_error($ch);
+}
+//Success
+else
+{
+	$json = json_decode($result2);
+	if(isset($json->quotes->quote)){
+		$price = $json->quotes->quote->open;
 	}
+
+	echo '<tr><td>' . $result['stock'] . '</td>' .
+	     '<td>$' . sprintf('%0.2f', $result['purchase_price']) . '</td>' . 
+	     '<td>' . $result['shares'] . ' shares</td>' .
+	     '<td>$' . sprintf('%0.2f', $price) . '</td>' .
+	     '<td>' . money_format('%i', $price*$result['shares']) . '</td></tr>';
+	}
+}
+if(isset($ch)){
+	curl_close($ch);
+} else {
+	echo '<b>No stocks found</b>';
+}
 ?>
     </tbody>
   </table>
