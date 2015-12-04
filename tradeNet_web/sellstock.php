@@ -28,7 +28,7 @@ $query->execute();
 <div class="container">
 <br>  
 <h2>Stocks owned by you</h2>
-  <p>These are the stocks you currently own.</p>           i
+  <p>These are the stocks you currently own.</p>
   <table class="table table-striped">
     <thead>
       <tr>
