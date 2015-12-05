@@ -14,13 +14,14 @@ $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $user_acct = $result['account_number'];
 $user_bal = $result['balance'];
+
 if($stmt = $dbHandle->prepare("SELECT shares FROM brokerage_portfolio where uid=:uid AND stock=:stock "))
 {
 	$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
  	$stmt->bindParam(':stock', $sym, PDO::PARAM_STR);
  	$stmt->execute();
  	$result = $stmt->fetch(PDO::FETCH_ASSOC);
- 	if($result['shares'] != NULL)
+ 	if($result['shares'] != NULL && $num_shares <= $result['shares'])
  	{
  		if($stmt = $dbHandle->prepare("UPDATE brokerage_portfolio SET shares=shares-:num_shares, purchase_price = purchase_price-:total_cost WHERE uid=:user AND stock=:stock"))
  		{
@@ -51,16 +52,20 @@ if($stmt = $dbHandle->prepare("SELECT shares FROM brokerage_portfolio where uid=
 	 	$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
 	 	$stmt->bindParam(':acct', $user_acct, PDO::PARAM_INT);
 	 	$stmt->execute();
- 	}
 
+		echo "<h1 style='text-align: center'>Transaction Successful</h1>";
+		echo "<a style='text-align: center' href='sellstock.php'>Return to Selling Stocks</a>";
+ 	}
+	else if($num_shares > $result['shares']){
+		echo "<h1 style='text-align: center'>Can't sell more shares than you own!</h1>";
+		echo "<a style='text-align: center' href='sellstock.php'>Return to Selling Stocks</a>";
+	}
  	//deletes all entries if all shares are sold
  	$stmt = $dbHandle->prepare("DELETE FROM brokerage_portfolio WHERE shares=:zero");
  	$zero = 0;
  	$stmt->bindParam(':zero', $zero, PDO::PARAM_INT);
  	$stmt->execute();
 
-	echo "<h1 style='text-align: center'>Transaction Successful</h1>";
-	echo "<a style='text-align: center' href='sellstock.php'>Return to Selling Stocks</a>";
 }
 else
 {
