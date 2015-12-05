@@ -72,7 +72,7 @@ else
 //print_r($json);
 //echo "Request completed: " . $json->quotes->quote->symbol;
 	if (isset($json->quotes->quote)){
-		$price = $json->quotes->quote->open;
+		$price = $json->quotes->quote->last;
 	}	
 }
 ?>
@@ -84,6 +84,7 @@ else
 	     '<td><input type="text" name="num_shares" size="3" /></td>' .
 	     '<td><input type="submit" value="Sell now"/></td>';
 ?> <input type="hidden" name="share_price" value="<?php echo $price; ?>"/>
+<input type="hidden" name="purchased_at" value="<?php echo $result['purchase_price']/$result['shares']; ?>"/>
 <input type="hidden" name="symbol" value="<?php echo $result['stock']; ?>"/>
 </form>
 <?php

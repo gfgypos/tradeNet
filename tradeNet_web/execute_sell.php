@@ -6,6 +6,7 @@ $uid = $_SESSION['uid'];
 $sym = $_POST['symbol'];
 $share_price = $_POST['share_price'];
 $num_shares = $_POST['num_shares'];
+$purchased_at = $_POST['purchased_at'];
 $total_cost = round($num_shares * $share_price, 2);
 $current_date = date('Y-m-d H:i:s');
 $stmt = $dbHandle->prepare("SELECT * FROM brokerage_user WHERE uid=:uid");
@@ -46,6 +47,30 @@ if($stmt = $dbHandle->prepare("SELECT shares FROM brokerage_portfolio where uid=
 	 	$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
 	 	$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
 	 	$stmt->execute();
+
+		// if >
+		if($purchased_at > $share_price)
+		{
+	 		$stmt = $dbHandle->prepare("UPDATE brokerage_user SET loss=loss+:cost WHERE uid=:user");
+	 		$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
+	 		$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
+	 		$stmt->execute();
+		}
+	 	// if <
+		else if($purchased_at < $share_price)
+		{
+			$stmt = $dbHandle->prepare("UPDATE brokerage_user SET profit=profit+:cost WHERE uid=:user");
+	 		$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
+	 		$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
+	 		$stmt->execute();
+		}
+		else if($purchased_at == $share_price)
+		{
+			$stmt = $dbHandle->prepare("UPDATE brokerage_user SET loss=loss-:cost WHERE uid=:user");
+			$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
+			$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
+			$stmt->execute();
+		}
 
 	 	//update the account table
 	 	$stmt = $dbHandle->prepare("UPDATE account SET account_bal=account_bal+:cost WHERE account_number=:acct");

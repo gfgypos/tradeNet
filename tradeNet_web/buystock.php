@@ -31,7 +31,7 @@ if(isset($_GET['buyingstock'])){
 //	print_r($json);
 	  //echo "Request completed: " . $json->quotes->quote->symbol;
 	if (isset($json->quotes->quote)){
-		  $price = $json->quotes->quote->open;
+		  $price = $json->quotes->quote->last;
 		  $symbol = $json->quotes->quote->symbol;
 		  $symbolName = $json->quotes->quote->description;
 	}	

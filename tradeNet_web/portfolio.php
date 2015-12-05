@@ -66,7 +66,7 @@ else
 {
 	$json = json_decode($result2);
 	if(isset($json->quotes->quote)){
-		$price = $json->quotes->quote->open;
+		$price = $json->quotes->quote->last;
 	}
 
 	echo '<tr><td>' . $result['stock'] . '</td>' .
@@ -85,6 +85,24 @@ if(isset($ch)){
     </tbody>
   </table>
 </div>
-
+<?php $stmt = $dbHandle->prepare("SELECT profit, loss FROM brokerage_user WHERE uid=:uid");
+$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+$stmt->execute();
+$result3 = $stmt->fetch(PDO::FETCH_ASSOC);
+$net_profit = $result3['profit'] - $result3['loss'];
+if($net_profit < 0)
+{
+	$net_profit = abs($net_profit);
+	echo "<h2 style='text-align: center'><b>You have lost a total of $" . sprintf('%0.2f', $net_profit) . ".</b></h2>";
+}
+else if($net_profit > 0) 
+{
+	echo "<h2 style='text-align: center'><b>You have made a total of $" . sprintf('%0.2f', $net_profit) . ".</b></h2>";
+}
+else
+{
+	echo "<h2 style='text-align: center'><b>You have currently broke even on your investments.</b></h2>";
+}
+?>
 </body>
 </html>
