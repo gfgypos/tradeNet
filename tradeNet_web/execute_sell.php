@@ -8,7 +8,12 @@ $share_price = $_POST['share_price'];
 $num_shares = $_POST['num_shares'];
 $total_cost = round($num_shares * $share_price, 2);
 $current_date = date('Y-m-d H:i:s');
-
+$stmt = $dbHandle->prepare("SELECT * FROM brokerage_user WHERE uid=:uid");
+$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$user_acct = $result['account_number'];
+$user_bal = $result['balance'];
 if($stmt = $dbHandle->prepare("SELECT shares FROM brokerage_portfolio where uid=:uid AND stock=:stock "))
 {
 	$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
