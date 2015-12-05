@@ -39,6 +39,7 @@ $query->execute();
         <th>You own</th>
 	<th>Current Market Price </th>
 	<th>Total current value</th>
+	<th>Your current balance</th>
       </tr>
     </thead>
     <tbody>
@@ -56,6 +57,13 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 $result2 = curl_exec($ch);
+
+//get the users balance
+$query = $dbHandle->prepare("SELECT * from brokerage_user WHERE uid=:uid");
+$query->bindParam(':uid', $uid, PDO::PARAM_INT);
+$query->execute();
+$result3 = $query->fetch(PDO::FETCH_ASSOC);
+
 //Failure
 if($result2 === FALSE)
 {
@@ -73,7 +81,8 @@ else
 	     '<td>$' . sprintf('%0.2f', $result['purchase_price']/$result['shares']) . '</td>' . 
 	     '<td>' . $result['shares'] . ' shares</td>' .
 	     '<td>$' . sprintf('%0.2f', $price) . '</td>' .
-	     '<td>' . money_format('%i', $price*$result['shares']) . '</td></tr>';
+	     '<td>' . $price*$result['shares']. 
+	     '<td>$' . sprintf('%0.2f', $result3['balance']) .'</td></tr>';
 	}
 }
 if(isset($ch)){
