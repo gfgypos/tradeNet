@@ -70,7 +70,7 @@ else
 	}
 
 	echo '<tr><td>' . $result['stock'] . '</td>' .
-	     '<td>$' . sprintf('%0.2f', $result['purchase_price']) . '</td>' . 
+	     '<td>$' . sprintf('%0.2f', $result['purchase_price']/$result['shares']) . '</td>' . 
 	     '<td>' . $result['shares'] . ' shares</td>' .
 	     '<td>$' . sprintf('%0.2f', $price) . '</td>' .
 	     '<td>' . money_format('%i', $price*$result['shares']) . '</td></tr>';

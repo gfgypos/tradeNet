@@ -78,9 +78,9 @@ else
 ?>
 <form action="execute_sell.php" method="POST"> <?php
 	echo '<tr><td>' . $result['stock'] . '</td>' .
-	     '<td>$' . $result['purchase_price'] . '</td>' . 
+	     '<td>$' . sprintf('%0.2f', $result['purchase_price']/$result['shares']) . '</td>' . 
 	     '<td>' . $result['shares'] . ' shares</td>' .
-	     '<td>$' . $price . '</td>' .
+	     '<td>$' . sprintf('%0.2f',$price) . '</td>' .
 	     '<td><input type="text" name="num_shares" size="3" /></td>' .
 	     '<td><input type="submit" value="Sell now"/></td>';
 ?> <input type="hidden" name="share_price" value="<?php echo $price; ?>"/>

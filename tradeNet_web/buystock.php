@@ -97,7 +97,7 @@ if(isset($_GET['buyingstock'])){
     <tbody>
       <tr>
         <td><?php echo '('. $symbol . ')' . '   ' . $symbolName ?></td>
-        <td><?php echo '$' . $price ?></td>
+        <td><?php echo '$' . sprintf('%0.2f',$price) ?></td>
         <td><input type='text' name='num_shares' size='3'/></td>
         <td><input type="submit" value="Buy now"/></td>
       </tr>

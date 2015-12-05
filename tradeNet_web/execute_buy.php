@@ -28,7 +28,6 @@ http://www.mustbebuilt.co.uk/php/insert-update-and-delete-with-pdo/
 
  		 	if($result['shares'] > 0)
  		 	{	
-				/* the way we have it set up, we store the individual stock purchase price, that way we can easily check to see if the newer price is > or < current market price for profit loss as well as display that info to users. Looks like you're storing TOTAL cost */
  		 		$stmt = $dbHandle->prepare("UPDATE brokerage_portfolio SET shares=shares+:shares, purchase_price=purchase_price+:cost WHERE uid=:user AND stock=:symbol");
  		 		$stmt->bindParam(':shares', $num_share, PDO::PARAM_INT);
  		 		$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
@@ -36,8 +35,6 @@ http://www.mustbebuilt.co.uk/php/insert-update-and-delete-with-pdo/
  		 		$stmt->bindParam(':symbol', strtoupper($share_name), PDO::PARAM_STR);
  		 		$stmt->execute();
  		 	}
-			/* I couldn't ever get this to return true or execute so some logic is funky around here. For INSERT INTO the syntax is:
-INSERT INTO table_name(table_col1, table_col2, ...) VALUES(:table_col1, :table_col2)  followed by the binding of parameters*/
  		 	else
  		 	{
  		 		$stmt = $dbHandle->prepare("INSERT INTO brokerage_portfolio(uid, stock, shares, purchase_price) VALUES(:user, :symbol, :shares, :cost)");
