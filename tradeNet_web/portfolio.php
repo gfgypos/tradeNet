@@ -81,7 +81,7 @@ else
 	     '<td>$' . sprintf('%0.2f', $result['purchase_price']/$result['shares']) . '</td>' . 
 	     '<td>' . $result['shares'] . ' shares</td>' .
 	     '<td>$' . sprintf('%0.2f', $price) . '</td>' .
-	     '<td>' . $price*$result['shares']. 
+	     '<td>$' . $price*$result['shares']. 
 	     '<td>$' . sprintf('%0.2f', $result3['balance']) .'</td></tr>';
 	}
 }
