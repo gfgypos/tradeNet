@@ -44,7 +44,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <h1 class="text-center login-title">Sign in to continue to Sweg Banking</h1><br>
+            <h1 class="text-center login-title">Sign in to continue to TradeNet Stocks</h1><br>
             <div class="account-wall">
                 <form class="form-signin"  method="post">
                 <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
