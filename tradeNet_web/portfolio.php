@@ -44,15 +44,8 @@ $query->execute();
       </tr>
     </thead>
     <tbody>
-<?php    
-/*
-while($result = $query->fetch(PDO::FETCH_ASSOC)){
-	echo '<tr><td>' . $result['stock'] . '</td>' .
-	'<td>$' . $result['purchase_price']. '</td>' .
-    '<td>' . $result['shares'] . '</td></tr>';
-}
-*/
-while($result = $query->fetch(PDO::FETCH_ASSOC)){
+    	
+<?php 	while($result = $query->fetch(PDO::FETCH_ASSOC)){
 /* adding stock query */
 $sym = $result['stock'];
 // Request quotes
