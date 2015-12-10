@@ -44,7 +44,15 @@ $query->execute();
       </tr>
     </thead>
     <tbody>
-<?php      while($result = $query->fetch(PDO::FETCH_ASSOC)){
+<?php    
+/*
+while($result = $query->fetch(PDO::FETCH_ASSOC)){
+	echo '<tr><td>' . $result['stock'] . '</td>' .
+	'<td>$' . $result['purchase_price']. '</td>' .
+    '<td>' . $result['shares'] . '</td></tr>';
+}
+*/
+while($result = $query->fetch(PDO::FETCH_ASSOC)){
 /* adding stock query */
 $sym = $result['stock'];
 // Request quotes
@@ -77,10 +85,9 @@ else
 	if(isset($json->quotes->quote)){
 		$price = $json->quotes->quote->last;
 	}
-
 	echo '<tr><td>' . $result['stock'] . '</td>' .
 	     '<td>$' . sprintf('%0.2f', $result['purchase_price']/$result['shares']) . '</td>' . 
-	     '<td>' . $result['shares'] . ' shares</td>' .
+	     '<td>'  . $result['shares'] . ' shares</td>' .
 	     '<td>$' . sprintf('%0.2f', $price) . '</td>' .
 	     '<td>$' . $price*$result['shares']. 
 	     '<td>$' . sprintf('%0.2f', $result3['balance']) .'</td></tr>';

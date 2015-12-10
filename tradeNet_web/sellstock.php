@@ -42,8 +42,6 @@ $query->execute();
     </thead>
     <tbody>
 <?php
-echo "Marco";
-
 while($result = $query->fetch(PDO::FETCH_ASSOC)){
 $sym = $result['stock'];
 // Request: Market Quotes (https://sandbox.tradier.com/v1/markets/quotes?symbols=spy)
