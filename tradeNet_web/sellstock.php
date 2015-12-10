@@ -42,6 +42,7 @@ $query->execute();
     </thead>
     <tbody>
 <?php
+echo "Marco";
 
 while($result = $query->fetch(PDO::FETCH_ASSOC)){
 $sym = $result['stock'];

@@ -127,25 +127,28 @@ else
         <th>Shared Bought</th>
         <th>Shares sold</th>
 	<th>Transaction Amount</th>
-	<th>Time/ Date</th>
+	<th>Date Time</th>
       </tr>
     </thead>
     <tbody>
 <?php
-//Transaction History Query
+//Transaction History thquery
 $thquery = $dbHandle->prepare("SELECT * from brokerage_transactions WHERE uid=:uid");
 $thquery->bindParam(':uid', $uid, PDO::PARAM_INT);
 $thquery->execute();
+
 while($result = $thquery->fetch(PDO::FETCH_ASSOC)){
 echo '<tr><td>' . $result['stock'] . '</td>' .
      '<td>' . $result['shares_bought'] . '</td>' . 
      '<td>' . $result['shares_sold'] . '</td>' .
      '<td>$' . sprintf('%0.2f', $result['transaction_amount']) . '</td>' .
-     '<td>' . $result['time_date'];
+     '<td>' . $result['time_date'] . '</td></tr>';
 }
+
 if(isset($ch)){
 	curl_close($ch);
 } else {
+
 	echo '<b>No stocks found</b>';
 }
 ?>

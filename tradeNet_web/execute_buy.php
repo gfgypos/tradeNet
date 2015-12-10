@@ -62,7 +62,7 @@ http://www.mustbebuilt.co.uk/php/insert-update-and-delete-with-pdo/
  		 	$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
  		 	$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
  		 	$stmt->execute();
- 		 	
+
  		 	//update the account table
  		 	$stmt = $dbHandle->prepare("UPDATE account SET account_bal=account_bal-:cost WHERE account_number=:acct");
  		 	$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
