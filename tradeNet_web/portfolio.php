@@ -65,10 +65,10 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 $result2 = curl_exec($ch);
 
 //get the users balance
-$query = $dbHandle->prepare("SELECT * from brokerage_user WHERE uid=:uid");
-$query->bindParam(':uid', $uid, PDO::PARAM_INT);
-$query->execute();
-$result3 = $query->fetch(PDO::FETCH_ASSOC);
+$query3 = $dbHandle->prepare("SELECT * from brokerage_user WHERE uid=:uid");
+$query3->bindParam(':uid', $uid, PDO::PARAM_INT);
+$query3->execute();
+$result3 = $query3->fetch(PDO::FETCH_ASSOC);
 
 //Failure
 if($result2 === FALSE)
@@ -147,13 +147,6 @@ echo '<tr><td>' . $result['stock'] . '</td>' .
      '<td>' . $result['shares_sold'] . '</td>' .
      '<td>$' . sprintf('%0.2f', $result['transaction_amount']) . '</td>' .
      '<td>' . $result['time_date'] . '</td></tr>';
-}
-
-if(isset($ch)){
-	curl_close($ch);
-} else {
-
-	echo '<b>No stocks found</b>';
 }
 ?>
     </tbody>
