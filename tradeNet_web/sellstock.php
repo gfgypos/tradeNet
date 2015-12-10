@@ -42,7 +42,7 @@ $query->execute();
     </thead>
     <tbody>
 <?php
-while($result = $query->fetchAll(PDO::FETCH_ASSOC)){
+while($result = $query->fetch(PDO::FETCH_ASSOC)){
 $sym = $result['stock'];
 // Request: Market Quotes (https://sandbox.tradier.com/v1/markets/quotes?symbols=spy)
 $ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");
