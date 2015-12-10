@@ -44,7 +44,6 @@ http://www.mustbebuilt.co.uk/php/insert-update-and-delete-with-pdo/
  		 		$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
  		 		$stmt->execute();
  		 	}
-
  		 	//insert into transaction table
  		 	$stmt = $dbHandle->prepare("INSERT INTO brokerage_transactions(uid, stock, shares_bought, transaction_amount, time_date) VALUES(:user, :symbol, :shares, :cost, :time_date)");
  		 	$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
@@ -63,6 +62,7 @@ http://www.mustbebuilt.co.uk/php/insert-update-and-delete-with-pdo/
  		 	$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
  		 	$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);
  		 	$stmt->execute();
+ 		 	
  		 	//update the account table
  		 	$stmt = $dbHandle->prepare("UPDATE account SET account_bal=account_bal-:cost WHERE account_number=:acct");
  		 	$stmt->bindParam(':cost', $total_cost, PDO::PARAM_STR);

@@ -227,9 +227,9 @@ while True:
 				newUserPassword = raw_input("Enter the new customers password: ")
 				newFullName = raw_input("Enter the customers full name: ")
 				isActive = 1
-				accessLevel = input("Enter the users access level(0 for customer, 1 for admin: ")
+				accessLevel = input("Enter the users access level(0 for customer, 1 for admin): ")
 				cur.execute("INSERT INTO user (username, password, name, is_active, access_level) VALUES (?,?,?,?,?)",
-							 [newUserName, newUserPassword, newFullName, isActive, access_level])
+							 [newUserName, newUserPassword, newFullName, isActive, accessLevel])
 				cur.execute("SELECT uid FROM user WHERE username=?", [newUserName])
 				logUid = cur.fetchone()[0]
 				#Log
@@ -240,7 +240,7 @@ while True:
 			#Add Account
 			elif choice == 2:
 				#input
-				newAccounType = raw_input("\nEnter the new account type: ")
+				newAccounType = raw_input("\nEnter the new account type (brokerage, savings, or checking): ")
 				newAccountBal = input("Enter the new account balance: ")
 				cur.execute("INSERT INTO account (account_type, account_bal) VALUES (?,?)",
 							[newAccounType, newAccountBal])
@@ -280,9 +280,9 @@ while True:
 			elif choice == 4:
 				#Available user IDS and associated usernames
 				#ADMINS CANNOT HAVE BROKERAGE ACCOUNTS
-				cur.execute("SELECT uid, username FROM user WHERE access_level = 0")
+				cur.execute("SELECT uid, name FROM user WHERE access_level = 0")
 				rows = cur.fetchall()
-				print("Available User IDs:       Usernames: ")
+				print("Available User IDs:       Name: ")
 	  			for row in rows:
 	        			print(str(row[0]) + ", 	                  " + str(row[1]))
 
@@ -292,15 +292,15 @@ while True:
 					print "ERROR user does not exist, please add customer first \n"
 					break
 
-				username = raw_input("\nEnter the users name: ")
+				username = raw_input("\nEnter the user's username: ")
 				pw = raw_input("\nEnter the users password: ")
 
-				cur.execute("SELECT account_number FROM brokerage_user, WHERE account_type = 'brokerage' AND account_number = (SELECT account_number FROM user_account WHERE uid = (SELECT uid FROM user WHERE username =? AND password =?", [username,pw])
+				cur.execute("SELECT account_number FROM account WHERE account_type = 'brokerage' AND account_number = (SELECT account_number FROM user_account WHERE uid = (SELECT uid FROM user WHERE username =? AND password =?))", [username,pw])
 				
 				rows = cur.fetchall()
-				print("\nAvailable brokerage accounts:       Usernames: ")
+				print("\nAvailable brokerage accounts under that user's account:\n")
 	  			for row in rows:
-	        			print(str(row[0]) + ", 	                  " + str(row[1]))
+	        			print(str(row[0]))
 
 				act_num = input("\nEnter the users brokerage account number: ")
 				cur.execute("SELECT * FROM account WHERE account_number=?", [act_num])
