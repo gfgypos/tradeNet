@@ -49,7 +49,7 @@ $query->execute();
 /* adding stock query */
 
 //DEBUGGING ONLY
-print_r ($result);
+//print_r ($result);
 
 $sym = $result['stock'];
 // Request quotes
