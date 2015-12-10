@@ -44,9 +44,13 @@ $query->execute();
       </tr>
     </thead>
     <tbody>
-    	
+
 <?php 	while($result = $query->fetch(PDO::FETCH_ASSOC)){
 /* adding stock query */
+
+//DEBUGGING ONLY
+print_r ($result);
+
 $sym = $result['stock'];
 // Request quotes
 $ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");

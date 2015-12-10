@@ -42,7 +42,7 @@ $query->execute();
     </thead>
     <tbody>
 <?php
-while($result = $query->fetch(PDO::FETCH_ASSOC)){
+while($result = $query->fetchAll(PDO::FETCH_ASSOC)){
 $sym = $result['stock'];
 // Request: Market Quotes (https://sandbox.tradier.com/v1/markets/quotes?symbols=spy)
 $ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");
@@ -69,11 +69,12 @@ else
 {
 	$json = json_decode($result2);
 /* DEBUG ONLY */  
-//print_r($json);
+//print_r ($json);
 //echo "Request completed: " . $json->quotes->quote->symbol;
 	if (isset($json->quotes->quote)){
 		$price = $json->quotes->quote->last;
 	}	
+
 }
 ?>
 <form action="execute_sell.php" method="POST"> <?php
