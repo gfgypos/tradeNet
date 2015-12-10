@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once "db_connect.php";
-$query = $dbHandle->prepare("SELECT * from brokerage_portfolio");
+$uid = $_SESSION['uid'];
+$query = $dbHandle->prepare("SELECT * from brokerage_portfolio WHERE uid=:uid");
 $query->execute();
 
 ?>
