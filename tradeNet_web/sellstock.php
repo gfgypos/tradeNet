@@ -3,6 +3,7 @@ session_start();
 require_once "db_connect.php";
 $uid = $_SESSION['uid'];
 $query = $dbHandle->prepare("SELECT * from brokerage_portfolio WHERE uid=:uid");
+$query->bindParam(':uid', $uid, PDO::PARAM_INT);
 $query->execute();
 
 ?>
