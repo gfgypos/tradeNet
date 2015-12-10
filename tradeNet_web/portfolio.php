@@ -7,6 +7,7 @@ $query = $dbHandle->prepare("SELECT * from brokerage_portfolio WHERE uid=:uid");
 $query->bindParam(':uid', $uid, PDO::PARAM_INT);
 $query->execute();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,5 +114,44 @@ else
 	echo "<h2 style='text-align: center'><b>You have currently broke even on your investments.</b></h2>";
 }
 ?>
+
+<!-- Transaction History Start-->
+<div class="container">
+<br>  
+<h2>Transaction History</h2>
+  <p>These are the stocks you have previously bought or sold.</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Stock</th>
+        <th>Shared Bought</th>
+        <th>Shares sold</th>
+	<th>Transaction Amount</th>
+	<th>Time/ Date</th>
+      </tr>
+    </thead>
+    <tbody>
+<?php
+//Transaction History Query
+$thquery = $dbHandle->prepare("SELECT * from brokerage_transactions WHERE uid=:uid");
+$thquery->bindParam(':uid', $uid, PDO::PARAM_INT);
+$thquery->execute();
+while($result = $thquery->fetch(PDO::FETCH_ASSOC)){
+echo '<tr><td>' . $result['stock'] . '</td>' .
+     '<td>' . $result['shares_bought'] . '</td>' . 
+     '<td>' . $result['shares_sold'] . '</td>' .
+     '<td>$' . sprintf('%0.2f', $result['transaction_amount']) . '</td>' .
+     '<td>' . $result['time_date'];
+}
+if(isset($ch)){
+	curl_close($ch);
+} else {
+	echo '<b>No stocks found</b>';
+}
+?>
+    </tbody>
+  </table>
+</div>
+<!-- Transaction History End-->
 </body>
 </html>
