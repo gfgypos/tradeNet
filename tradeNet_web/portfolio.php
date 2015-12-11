@@ -7,6 +7,7 @@ $query = $dbHandle->prepare("SELECT * from brokerage_portfolio WHERE uid=:uid");
 $query->bindParam(':uid', $uid, PDO::PARAM_INT);
 $query->execute();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,8 +44,12 @@ $query->execute();
       </tr>
     </thead>
     <tbody>
-<?php      while($result = $query->fetch(PDO::FETCH_ASSOC)){
+
+<?php 	while($result = $query->fetch(PDO::FETCH_ASSOC)){
 /* adding stock query */
+
+//DEBUGGING ONLY
+
 $sym = $result['stock'];
 // Request quotes
 $ch = curl_init("https://sandbox.tradier.com/v1/markets/quotes?symbols=${sym}");
@@ -59,10 +64,10 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 $result2 = curl_exec($ch);
 
 //get the users balance
-$query = $dbHandle->prepare("SELECT * from brokerage_user WHERE uid=:uid");
-$query->bindParam(':uid', $uid, PDO::PARAM_INT);
-$query->execute();
-$result3 = $query->fetch(PDO::FETCH_ASSOC);
+$query3 = $dbHandle->prepare("SELECT * from brokerage_user WHERE uid=:uid");
+$query3->bindParam(':uid', $uid, PDO::PARAM_INT);
+$query3->execute();
+$result3 = $query3->fetch(PDO::FETCH_ASSOC);
 
 //Failure
 if($result2 === FALSE)
@@ -76,12 +81,11 @@ else
 	if(isset($json->quotes->quote)){
 		$price = $json->quotes->quote->last;
 	}
-
 	echo '<tr><td>' . $result['stock'] . '</td>' .
 	     '<td>$' . sprintf('%0.2f', $result['purchase_price']/$result['shares']) . '</td>' . 
-	     '<td>' . $result['shares'] . ' shares</td>' .
+	     '<td>'  . $result['shares'] . ' shares</td>' .
 	     '<td>$' . sprintf('%0.2f', $price) . '</td>' .
-	     '<td>' . $price*$result['shares']. 
+	     '<td>$' . $price*$result['shares']. 
 	     '<td>$' . sprintf('%0.2f', $result3['balance']) .'</td></tr>';
 	}
 }
@@ -113,5 +117,40 @@ else
 	echo "<h2 style='text-align: center'><b>You have currently broke even on your investments.</b></h2>";
 }
 ?>
+
+<!-- Transaction History Start-->
+<div class="container">
+<br>  
+<h2>Transaction History</h2>
+  <p>These are the stocks you have previously bought or sold.</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Stock</th>
+        <th>Shared Bought</th>
+        <th>Shares sold</th>
+	<th>Transaction Amount</th>
+	<th>Date Time</th>
+      </tr>
+    </thead>
+    <tbody>
+<?php
+//Transaction History thquery
+$thquery = $dbHandle->prepare("SELECT * from brokerage_transactions WHERE uid=:uid");
+$thquery->bindParam(':uid', $uid, PDO::PARAM_INT);
+$thquery->execute();
+
+while($result = $thquery->fetch(PDO::FETCH_ASSOC)){
+echo '<tr><td>' . $result['stock'] . '</td>' .
+     '<td>' . $result['shares_bought'] . '</td>' . 
+     '<td>' . $result['shares_sold'] . '</td>' .
+     '<td>$' . sprintf('%0.2f', $result['transaction_amount']) . '</td>' .
+     '<td>' . $result['time_date'] . '</td></tr>';
+}
+?>
+    </tbody>
+  </table>
+</div>
+<!-- Transaction History End-->
 </body>
 </html>

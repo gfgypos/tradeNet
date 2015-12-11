@@ -1,7 +1,9 @@
 <?php
 session_start();
 require_once "db_connect.php";
-$query = $dbHandle->prepare("SELECT * from brokerage_portfolio");
+$uid = $_SESSION['uid'];
+$query = $dbHandle->prepare("SELECT * from brokerage_portfolio WHERE uid=:uid");
+$query->bindParam(':uid', $uid, PDO::PARAM_INT);
 $query->execute();
 
 ?>
@@ -41,7 +43,6 @@ $query->execute();
     </thead>
     <tbody>
 <?php
-
 while($result = $query->fetch(PDO::FETCH_ASSOC)){
 $sym = $result['stock'];
 // Request: Market Quotes (https://sandbox.tradier.com/v1/markets/quotes?symbols=spy)
@@ -69,11 +70,12 @@ else
 {
 	$json = json_decode($result2);
 /* DEBUG ONLY */  
-//print_r($json);
+//print_r ($json);
 //echo "Request completed: " . $json->quotes->quote->symbol;
 	if (isset($json->quotes->quote)){
 		$price = $json->quotes->quote->last;
 	}	
+
 }
 ?>
 <form action="execute_sell.php" method="POST"> <?php

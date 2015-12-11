@@ -27,7 +27,7 @@ $query = "SELECT * FROM account";
     <div class="jumbotron">
       <div class="container">
 	<div class="text-center">
-        <h1>Sweg Stocks</h1>
+        <h1>Trade Net Stocks</h1>
 	</div>
       </div>
     </div> 

@@ -34,7 +34,7 @@ if($stmt = $dbHandle->prepare("SELECT shares FROM brokerage_portfolio where uid=
  		}
 
  		//insert into transaction table
-	 	$stmt = $dbHandle->prepare("INSERT INTO brokerage_transactions ('uid', 'stock', 'shares_sold', 'transaction_amount', 'time_date') VALUES (':user', 'symbol', ':shares', ':cost', ':time_date')");
+	 	$stmt = $dbHandle->prepare("INSERT INTO brokerage_transactions (uid, stock, shares_sold, transaction_amount, time_date) VALUES (:user, :symbol, :shares, :cost, :time_date)");
 	 	$stmt->bindParam(':user', $uid, PDO::PARAM_INT);
 	 	$stmt->bindParam(':symbol', $sym, PDO::PARAM_STR);
 	 	$stmt->bindParam(':shares', $num_shares, PDO::PARAM_INT);
